@@ -12,28 +12,9 @@ void render();
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+Shader ourShader;
 
-const char *vertexShaderSource = "#version 330 core\n"
-"layout (location = 0) in vec3 aPos;\n"
-"layout (location = 1) in vec3 aColor;\n"
-"out vec3 ourColor;\n"
-"void main()\n"
-"{\n"
-"   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-" ourColor = aColor;\n"
-"}\0";
-const char *fragmentShaderSource = "#version 330 core\n"
-"in vec3 ourColor;\n"
-"out vec4 FragColor;\n"
-"uniform vec4 OurColor;\n"
-"void main()\n"
-"{\n"
-"   FragColor = vec4(ourColor,1.0f) + OurColor;\n"
-"}\n\0";
-
-
-
-int shaderProgram;
+//int shaderProgram;
 unsigned int VAO;
 int vertexColorLocation;
 int main()
@@ -91,10 +72,12 @@ int main()
 }
 
 void init() {
+
+     ourShader = Shader("./shader.vs", "./shader.fs");
     // build and compile our shader program
     // ------------------------------------
     // vertex shader
-    int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+   /* int vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
     glCompileShader(vertexShader);
     // check for shader compile errors
@@ -134,7 +117,7 @@ void init() {
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
-
+    */
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
     float vertices[] = {
@@ -179,7 +162,7 @@ void init() {
     // uncomment this call to draw in wireframe polygons.
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
-    vertexColorLocation = glGetUniformLocation(shaderProgram, "OurColor");
+   // vertexColorLocation = glGetUniformLocation(shaderProgram, "OurColor");
 }
 
 void render() {
@@ -192,9 +175,13 @@ void render() {
     float greenValue = sin(timeValue) / 2.0f + 0.5f;
 
     // draw our first triangle
-    glUseProgram(shaderProgram);
+   // glUseProgram(shaderProgram);
+    ourShader.use();
     glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-    glUniform4f(vertexColorLocation, greenValue, 0.0f,  0.0f, 1.0f);
+    ourShader.setFloat4("OurColor",0.0f, 0.0f, 0.0f, 0.0f);
+    ourShader.setFloat("offset", 0.2f);
+
+  //  glUniform4f(vertexColorLocation, greenValue, 0.0f,  0.0f, 1.0f);
     //glDrawArrays(GL_TRIANGLES, 0, 3);
     glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 
