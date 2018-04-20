@@ -1,5 +1,8 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 #include <iostream>
 #include "Shader.h"
@@ -195,10 +198,20 @@ void render() {
     glBindTexture(GL_TEXTURE_2D, texture[0]);
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, texture[1]);
-    // glUseProgram(shaderProgram);
+    glm::mat4 trans;
+ //   trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
+    trans = glm::rotate(trans, (float)glfwGetTime(), glm::vec3(0.0, 0.0, 1.0));
     ourShader.use();
     glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
     ourShader.setFloat("mixValue", mixValue);
+    unsigned int transformLoc = glGetUniformLocation(ourShader.ID, "transform");
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
+
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glm::mat4 trans2;
+    trans2 = glm::translate(trans2, glm::vec3(0.5, 0.5, 0.5));
+    trans2 = glm::scale(trans2, glm::vec3(glm::sin((float)glfwGetTime()), glm::cos((float)glfwGetTime()), glm::sin((float)glfwGetTime())));
+    glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans2));
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
