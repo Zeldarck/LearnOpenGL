@@ -22,9 +22,12 @@ void render();
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 Shader ourShader;
+Shader lightShader;
+Shader lightSourceShader;
 float mixValue;
 unsigned int texture[2];
 unsigned int VAO;
+unsigned int lightVAO;
 int vertexColorLocation;
 
 float deltaTime = 0.0f;	// Time between current frame and last frame
@@ -93,8 +96,9 @@ void init() {
 
 
 
-     ourShader = Shader("./shader.vs", "./shader.fs");
-
+    ourShader = Shader("./shader.vs", "./shader.fs");
+    lightShader = Shader("./lightShader.vs", "./lightShader.fs");
+    lightSourceShader = Shader("./lightSourceShader.vs", "./lightSourceShader.fs");
 
     // set up vertex data (and buffer(s)) and configure vertex attributes
     // ------------------------------------------------------------------
@@ -149,26 +153,24 @@ void init() {
          -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
          -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
      };
-     int indices[] = {
-       0,1,2,
-       0,2,3
-    };
+   
 
     unsigned int VBO;
-    unsigned int EBO;
-    glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
-    glGenBuffers(1, &EBO);
+    glGenVertexArrays(1, &lightVAO);
+    glBindVertexArray(lightVAO);
+    // we only need to bind to the VBO, the container's VBO's data already contains the correct data.
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    // set the vertex attributes (only position data for our lamp)
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
 
+    glGenVertexArrays(1, &VAO);
     // bind the Vertex Array Object first, then bind and set vertex buffer(s), and then configure vertex attributes(s).
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
 
     // position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
@@ -177,6 +179,8 @@ void init() {
     glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
+
+    
     glGenTextures(2, texture);
     glBindTexture(GL_TEXTURE_2D, texture[0]);
     // set the texture wrapping/filtering options (on the currently bound texture object)
@@ -222,13 +226,14 @@ void init() {
 
     ourShader.use(); // don't forget to activate/use the shader before setting uniforms!
                      // either set it manually like so:
-    glUniform1i(glGetUniformLocation(ourShader.ID, "texture0"), 0);
+
     // or set it via the texture class
     ourShader.setInt("texture1", 1);
+    ourShader.setInt("texture0", 0);
 
     // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
     glBindBuffer(GL_ARRAY_BUFFER, 0);
-
+    
     // You can unbind the VAO afterwards so other VAO calls won't accidentally modify this VAO, but this rarely happens. Modifying other
     // VAOs requires a call to glBindVertexArray anyways so we generally don't unbind VAOs (nor VBOs) when it's not directly necessary.
 
@@ -263,6 +268,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 }
 
 
+glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
 
 void render() {
 
@@ -287,54 +293,61 @@ void render() {
 
     // render
     // ------
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    glm::mat4 model;
-    model = glm::rotate(model, glm::radians(-55.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-    model = glm::rotate(model, (float)glfwGetTime() * glm::radians(50.0f), glm::vec3(0.5f, 1.0f, 0.0f));
+ 
+    glm::mat4 model = glm::mat4();
+    model = glm::translate(model, lightPos);
+    model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
 
 
 
 
-    float radius = 10.0f;
-    float camX = sin(glfwGetTime()) * radius;
-    float camZ = cos(glfwGetTime()) * radius;
-    glm::mat4 view;
-    view = cam.GetViewMatrix();
+    glm::mat4 view = cam.GetViewMatrix();
+
+
+    glBindVertexArray(lightVAO);
+    lightSourceShader.use();
+    lightSourceShader.setMat4("model", model);
+    lightSourceShader.setMat4("view", view);
+
+
+    glm::mat4 projection = glm::perspective(cam.GetFovRad(), 800.0f / 600.0f, 0.1f, 100.0f);
+
+    lightSourceShader.setMat4("projection", projection);
+
+    //glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
 
     // draw our first triangle
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture[0]);
     glActiveTexture(GL_TEXTURE1);
     glBindTexture(GL_TEXTURE_2D, texture[1]);
-    ourShader.use();
+
     glBindVertexArray(VAO); // seeing as we only have a single VAO there's no need to bind it every time, but we'll do so to keep things a bit more organized
-    ourShader.setFloat("mixValue", mixValue);
-    ourShader.setMat4("model", model);
-    ourShader.setMat4("view", view);
-    glm::mat4 projection;
- //   projection = glm::perspective(glm::radians(fov), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-    projection = glm::perspective(cam.GetFovRad(), 800.0f / 600.0f, 0.1f, 100.0f);
 
-    ourShader.setMat4( "projection", projection);
-   // glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-    glDrawArrays(GL_TRIANGLES, 0, 36);
 
-    projection = glm::perspective(glm::radians(45.0f), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-   // projection = glm::perspective(glm::radians(fov), 800.0f / 600.0f, 0.1f, 100.0f);
+    lightShader.use();
 
-    ourShader.setMat4("projection", projection);
+    projection = glm::perspective(cam.GetFovRad(), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 
+    lightShader.setMat4("model", model);
+    lightShader.setMat4("view", view);
+    lightShader.setFloat3("objectColor", 1.0f, 0.0f, 0.0f);
+    lightShader.setFloat3("lightColor", 1.0f, 1.0f, 1.0f);
+    lightShader.setMat4("projection", projection);
+    
     for (unsigned int i = 0; i < 10; i++)
     {
         glm::mat4 model;
         model = glm::translate(model, cubePositions[i]);
         float angle = 20.0f * i+1;
         model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-        ourShader.setMat4("model", model);
+        lightShader.setMat4("model", model);
 
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
@@ -365,13 +378,13 @@ void processInput(GLFWwindow *window)
     }
     float cameraSpeed = 2.5f * deltaTime;
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        cam.ProcessKeyboard(Camera_Movement::FORWARD, deltaTime);
+        cam.ProcessKeyboard(Camera_Movement::FORWARD, deltaTime, true);
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        cam.ProcessKeyboard(Camera_Movement::BACKWARD, deltaTime);
+        cam.ProcessKeyboard(Camera_Movement::BACKWARD, deltaTime, true);
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        cam.ProcessKeyboard(Camera_Movement::LEFT, deltaTime);
+        cam.ProcessKeyboard(Camera_Movement::LEFT, deltaTime, true);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        cam.ProcessKeyboard(Camera_Movement::RIGHT, deltaTime);
+        cam.ProcessKeyboard(Camera_Movement::RIGHT, deltaTime,true);
 
 
 }

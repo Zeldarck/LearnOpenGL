@@ -133,11 +133,17 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="lightShader.vs" />
+    <None Include="lightSourceShader.vs" />
     <None Include="shader.fs" />
     <None Include="shader.vs" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <None Include="lightShader.fs">
+      <FileType>CppHeader</FileType>
+    </None>
+    <None Include="lightSourceShader.fs" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="stb_image.h" />
   </ItemGroup>
