@@ -111,47 +111,47 @@ void init() {
      };*/
 
      float vertices[] = {
-         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-         -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
+         -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+         -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
+         -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,
 
-         -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 1.0f,
-         -0.5f,  0.5f,  0.5f,  0.0f, 1.0f,
-         -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
+         -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+         -0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
+         -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,
 
-         -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         -0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         -0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+         -0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+         -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+         -0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,
+         -0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
+         -0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,
 
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,
 
-         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f, -0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f, -0.5f,  0.5f,  1.0f, 0.0f,
-         -0.5f, -0.5f,  0.5f,  0.0f, 0.0f,
-         -0.5f, -0.5f, -0.5f,  0.0f, 1.0f,
+         -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+         0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+         0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+         -0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,
+         -0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,
 
-         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f,
-         0.5f,  0.5f, -0.5f,  1.0f, 1.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         0.5f,  0.5f,  0.5f,  1.0f, 0.0f,
-         -0.5f,  0.5f,  0.5f,  0.0f, 0.0f,
-         -0.5f,  0.5f, -0.5f,  0.0f, 1.0f
+         -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+         0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+         0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+         -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
+         -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
      };
    
 
@@ -161,8 +161,9 @@ void init() {
     glBindVertexArray(lightVAO);
     // we only need to bind to the VBO, the container's VBO's data already contains the correct data.
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
     // set the vertex attributes (only position data for our lamp)
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
     glGenVertexArrays(1, &VAO);
@@ -170,18 +171,14 @@ void init() {
     glBindVertexArray(VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-    // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
-    // text attribute
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    // normal attribute
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(1);
 
-
-    
-    glGenTextures(2, texture);
+   /* glGenTextures(2, texture);
     glBindTexture(GL_TEXTURE_2D, texture[0]);
     // set the texture wrapping/filtering options (on the currently bound texture object)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -230,7 +227,7 @@ void init() {
     // or set it via the texture class
     ourShader.setInt("texture1", 1);
     ourShader.setInt("texture0", 0);
-
+    */
     // note that this is allowed, the call to glVertexAttribPointer registered VBO as the vertex attribute's bound vertex buffer object so afterwards we can safely unbind
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     
@@ -268,7 +265,7 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 }
 
 
-glm::vec3 lightPos(1.2f, 1.0f, 2.0f);
+glm::vec3 lightPos(0.f,  0.0f, -2.5f);
 
 void render() {
 
@@ -299,6 +296,9 @@ void render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
  
+    lightPos.x = 1.0f + sin(glfwGetTime()) * 2.0f;
+    lightPos.y = cos(glfwGetTime() / 2.0f) * 1.0f;
+
     glm::mat4 model = glm::mat4();
     model = glm::translate(model, lightPos);
     model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
@@ -313,6 +313,7 @@ void render() {
     lightSourceShader.use();
     lightSourceShader.setMat4("model", model);
     lightSourceShader.setMat4("view", view);
+    lightSourceShader.setFloat3("lightColor", 0.5f, cos(glfwGetTime() / 2.0f) * 0.2f, cos(glfwGetTime() / 5.0f) * .6f);
 
 
     glm::mat4 projection = glm::perspective(cam.GetFovRad(), 800.0f / 600.0f, 0.1f, 100.0f);
@@ -337,10 +338,12 @@ void render() {
 
     lightShader.setMat4("model", model);
     lightShader.setMat4("view", view);
-    lightShader.setFloat3("objectColor", 1.0f, 0.0f, 0.0f);
-    lightShader.setFloat3("lightColor", 1.0f, 1.0f, 1.0f);
+    lightShader.setFloat3("objectColor", 0.7f,  0.3f,  0.8f);
+    lightShader.setFloat3("lightColor", 0.5f, cos(glfwGetTime() / 2.0f) * 0.2f, cos(glfwGetTime() / 5.0f) * .6f);
     lightShader.setMat4("projection", projection);
-    
+    lightShader.setFloat3("lightPos", lightPos);
+    lightShader.setFloat3("viewPos", cam.getPosition());
+
     for (unsigned int i = 0; i < 10; i++)
     {
         glm::mat4 model;
@@ -351,7 +354,7 @@ void render() {
 
         glDrawArrays(GL_TRIANGLES, 0, 36);
     }
-
+  
 
     // glBindVertexArray(0); // no need to unbind it every time 
 }
@@ -378,13 +381,13 @@ void processInput(GLFWwindow *window)
     }
     float cameraSpeed = 2.5f * deltaTime;
     if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        cam.ProcessKeyboard(Camera_Movement::FORWARD, deltaTime, true);
+        cam.ProcessKeyboard(Camera_Movement::FORWARD, deltaTime, false);
     if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        cam.ProcessKeyboard(Camera_Movement::BACKWARD, deltaTime, true);
+        cam.ProcessKeyboard(Camera_Movement::BACKWARD, deltaTime, false);
     if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-        cam.ProcessKeyboard(Camera_Movement::LEFT, deltaTime, true);
+        cam.ProcessKeyboard(Camera_Movement::LEFT, deltaTime, false);
     if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-        cam.ProcessKeyboard(Camera_Movement::RIGHT, deltaTime,true);
+        cam.ProcessKeyboard(Camera_Movement::RIGHT, deltaTime, false);
 
 
 }

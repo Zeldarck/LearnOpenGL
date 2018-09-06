@@ -106,6 +106,10 @@ public:
         glUniform3f(glGetUniformLocation(ID, name.c_str()), x, y, z);
     }
 
+    void setFloat3(const std::string &name, glm::vec3 a_vec) const
+    {
+        glUniform3fv(glGetUniformLocation(ID, name.c_str()), 1, glm::value_ptr(a_vec));
+    }
 
     void setMat4(const std::string &name, glm::mat4 a_mat) const
     {

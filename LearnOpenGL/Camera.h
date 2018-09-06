@@ -42,6 +42,10 @@ protected:
     float m_fov;
 public:
 
+    inline glm::vec3 getPosition() {
+        return Position;
+    }
+
     inline float GetFovDeg() {
         return m_fov;
     }
