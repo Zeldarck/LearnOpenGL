@@ -314,6 +314,7 @@ void render() {
     lightSourceShader.setMat4("model", model);
     lightSourceShader.setMat4("view", view);
     lightSourceShader.setFloat3("lightColor", 0.5f, cos(glfwGetTime() / 2.0f) * 0.2f, cos(glfwGetTime() / 5.0f) * .6f);
+    lightSourceShader.setFloat3("lightColor", 1,1,1);
 
 
     glm::mat4 projection = glm::perspective(cam.GetFovRad(), 800.0f / 600.0f, 0.1f, 100.0f);
@@ -343,12 +344,21 @@ void render() {
     lightShader.setMat4("projection", projection);
     lightShader.setFloat3("lightPos", lightPos);
     lightShader.setFloat3("viewPos", cam.getPosition());
+    lightShader.setFloat3("light.ambient", 1.0f, 1.0f, 1.0f);
+    lightShader.setFloat3("light.diffuse", 1.0f, 1.0f, 1.0f); // darken the light a bit to fit the scene
+    lightShader.setFloat3("light.specular", 1.0f, 1.0f, 1.0f);
 
     for (unsigned int i = 0; i < 10; i++)
     {
         glm::mat4 model;
         model = glm::translate(model, cubePositions[i]);
         float angle = 20.0f * i+1;
+        int j = i + 1;
+        lightShader.setFloat3("material.ambient", j * 0.2f, j/2 * 0.5f, j / 4 * 0.31f);
+        lightShader.setFloat3("material.diffuse", j * 0.5f, j / 3 * 0.5f, j / 2 * 0.31f);
+        lightShader.setFloat3("material.specular", j / 2 * 0.5f, j * 2 * 0.5f, j / 5 * 0.5f);
+        lightShader.setFloat("material.shininess", j * 16.0f);
+
         model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
         lightShader.setMat4("model", model);
 
